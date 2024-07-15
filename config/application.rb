@@ -23,5 +23,9 @@ module LetbikeCom
     #
     # config.time_zone = "Central Time (US & Canada)"
     # config.eager_load_paths << Rails.root.join("extras")
+    
+    config.active_job.queue_adapter = :sidekiq
+
+    config.hosts << "3333-cs-d759c203-b862-4051-a2cf-e763295ae19e.cs-us-central1-pits.cloudshell.dev"
   end
 end

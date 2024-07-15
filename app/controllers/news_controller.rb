@@ -25,6 +25,7 @@ class NewsController < ApplicationController
 
     respond_to do |format|
       if @news.save
+        AuditJob.perform_later(@new.id)
         format.html { redirect_to news_url(@news), notice: "News was successfully created." }
         format.json { render :show, status: :created, location: @news }
       else
