@@ -27,5 +27,8 @@ module LetbikeCom
     config.active_job.queue_adapter = :sidekiq
 
     config.hosts << "3333-cs-d759c203-b862-4051-a2cf-e763295ae19e.cs-us-central1-pits.cloudshell.dev"
+    config.hosts << 'letbikecom.uw.r.appspot.com'
+    config.hosts << 'letbike.com'
+    config.hosts << 'www.letbike.com'
   end
 end
