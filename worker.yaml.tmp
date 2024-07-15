@@ -1,0 +1,17 @@
+runtime: custom
+env: flex
+service: worker
+
+entrypoint: bundle exec sidekiq
+
+env_variables:
+  REDIS_PROVIDER: REDIS_URL
+  REDIS_URL: redis://10.12.130.91:6379
+  SECRET_KEY_BASE: __SECRET_KEY_BASE
+
+health_check:
+  enable_health_check: False
+
+# Optional scaling configuration
+manual_scaling:
+  instances: 1

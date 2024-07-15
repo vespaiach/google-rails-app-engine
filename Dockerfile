@@ -37,15 +37,20 @@ RUN bundle exec bootsnap precompile app/ lib/
 RUN SECRET_KEY_BASE_DUMMY=1 ./bin/rails assets:precompile
 
 
-# Final stage for app image
-FROM base
+# Final stage
+FROM debian:slim-buster as final
 
-# Install packages needed for deployment
-RUN apt-get update -qq && \
-    apt-get install --no-install-recommends -y curl libsqlite3-0 libvips postgresql-client libpq-dev && \
+# Install necessary packages
+RUN apt-get update && \
+    apt-get install -y --no-install-recommends \
+    curl \
+    libsqlite3-0 \
+    libvips \
+    postgresql-client \
+    libpq-dev && \
     rm -rf /var/lib/apt/lists /var/cache/apt/archives
 
-# Copy built artifacts: gems, application
+# Copy built artifacts
 COPY --from=build /usr/local/bundle /usr/local/bundle
 COPY --from=build /rails /rails
 
@@ -54,9 +59,5 @@ RUN useradd rails --create-home --shell /bin/bash && \
     chown -R rails:rails db log storage tmp
 USER rails:rails
 
-# Entrypoint prepares the database.
-# ENTRYPOINT ["/rails/bin/docker-entrypoint"]
 
-# Start the server by default, this can be overwritten at runtime
-EXPOSE 3000
 CMD ["./bin/rails", "server"]

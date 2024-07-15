@@ -11,4 +11,6 @@ sed -e "s/__SECRET_KEY_BASE/$SECRET_KEY_BASE/g" \
     -e "s/__DB_PASSWORD/$DB_PASSWORD/g" \
     "app.yaml.tmp" > "app.yaml"
 
-gcloud app deploy --quiet --verbosity=debug
+sed -e "s/__SECRET_KEY_BASE/$SECRET_KEY_BASE/g" "worker.yaml.tmp" > "worker.yaml"
+
+# gcloud app deploy app.yaml worker.yaml --quiet --verbosity=debug
